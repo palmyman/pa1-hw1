@@ -17,13 +17,17 @@ typedef struct TCircle {
 } TCIRCLE;
 
 int hasIntersection(TCIRCLE * circle1, TCIRCLE * circle2) {
-    double centerDiff;
+    double centerDiff, radialDiff, radialSum;
     centerDiff = sqrt(pow(circle1->x - circle2->x, 2) + pow(circle1->y - circle2->y, 2));
-    if(centerDiff > (circle1->r + circle2->r)) return 0; // outside, no intersec.
-    if(centerDiff == (circle1->r + circle2->r)) return -1; // outside, one intersec,
-    if(centerDiff < (circle1->r + circle2->r) && centerDiff > abs(circle1->r - circle2->r)) return 2; // two intersec. -> evalVolume
-    if(centerDiff < (circle1->r + circle2->r) && centerDiff == abs(circle1->r - circle2->r)) return 1; // inside, one intersec. -> evalVolume
-    if(centerDiff < abs(circle1->r - circle2->r)) return 3; // inside, no intersec -> evalVolume
+    radialDiff = circle1->r - circle2->r;
+    if(radialDiff < 0) radialDiff *= -1;
+    radialSum = circle1->r + circle2->r;
+    printf("centerDiff: %lf\nradialDiff: %lf\nradialSum: %lf\n", centerDiff, radialDiff, radialSum);    
+    if(radialDiff < radialSum && radialSum < centerDiff) return 0; // outside, no intersec.
+    if(radialDiff < radialSum && radialSum == centerDiff) return -1; // outside, one intersec,
+    if(radialDiff < centerDiff && centerDiff < radialSum) return 2; // two intersec. -> evalVolume
+    if(centerDiff == radialDiff) return 1; // inside, one intersec. -> evalVolume
+    if(centerDiff < radialDiff) return 3; // inside, no intersec -> evalVolume
     if(circle1->x == circle2->x && circle1->y == circle2->y && circle1->r == circle2->r) return 4; // identic -> evalVolume
     return 100;
 }
@@ -59,7 +63,7 @@ int main(int argc, char** argv) {
     inter = hasIntersection(&circle1, &circle2);
     
     
-    printf("%d", inter);
+    printf("%d\n", inter);
 
     return (EXIT_SUCCESS);
 }
