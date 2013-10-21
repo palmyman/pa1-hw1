@@ -35,7 +35,7 @@ int inputCheck(float r, int check) {
     return 0;
 }
 
-int readCircle(TCIRCLE newCircle) {
+int readCircle(TCIRCLE & newCircle) {
     int check;
     check = scanf("%lf %lf %lf", &newCircle.x, &newCircle.y, &newCircle.r);
     if(!inputCheck(newCircle.r, check))
@@ -51,6 +51,7 @@ int main(int argc, char** argv) {
     
     TCIRCLE testCircle;
     int status = readCircle(testCircle);
+    printf("%lf", testCircle.r);
 
     return (EXIT_SUCCESS);
 }
