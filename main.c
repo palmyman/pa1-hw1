@@ -16,14 +16,14 @@ typedef struct TCircle {
     double x, y, r;
 } TCIRCLE;
 
-int hasIntersection(TCIRCLE circle1, TCIRCLE circle2) {
+int hasIntersection(TCIRCLE * circle1, TCIRCLE * circle2) {
     double centerDiff;
-    centerDiff = sqrt(pow(circle1.x - circle2.x, 2) + pow(circle1.y - circle2.y, 2));
-    if(centerDiff > (circle1.r + circle2.r)) return 0;
-    if(centerDiff == (circle1.r + circle2.r)) return 1;
-    if(centerDiff < (circle1.r + circle2.r) && centerDiff > abs(circle1.r - circle2.r)) return 2;    
-    if(centerDiff < (circle1.r + circle2.r) && centerDiff == abs(circle1.r - circle2.r)) return -1;
-    if(centerDiff < abs(circle1.r - circle2.r)) return -2;
+    centerDiff = sqrt(pow(circle1->x - circle2->x, 2) + pow(&circle1->y - &circle2->y, 2)); 
+    if(centerDiff > (circle1->r + circle2->r)) return 0;
+    if(centerDiff == (circle1->r + circle2->r)) return 1;
+    if(centerDiff < (circle1->r + circle2->r) && centerDiff > abs(circle1->r - circle2->r)) return 2;    
+    if(centerDiff < (circle1->r + circle2->r) && centerDiff == abs(circle1->r - circle2->r)) return -1;
+    if(centerDiff < abs(circle1->r - circle2->r)) return -2;
     return 3;
 }
 
