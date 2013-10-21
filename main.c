@@ -16,13 +16,29 @@ typedef struct TCircle {
     double x, y, r;
 } TCIRCLE;
 
+double evalArea(TCIRCLE * circle1, TCIRCLE * circle2) {
+    long double d, r, R, area;
+    d = sqrt(pow(circle1->x - circle2->x, 2) + pow(circle1->y - circle2->y, 2));
+    r = circle1->r;
+    R = circle2->r;
+    //TODO
+    area = pow(r, 2) * acos((pow(d, 2) + pow(r, 2) - pow(R, 2)) / 2*d*r) +
+            pow(R, 2) * acos((pow(d, 2) + pow(R, 2) - pow(r, 2)) / 2*d*r) -
+            1/2 * sqrt((r + R - d) * (d + r - R) * (d - r + R) * (d + r + R));
+    return area;
+}
+
 int hasIntersection(TCIRCLE * circle1, TCIRCLE * circle2) {
     double centerDiff, radialDiff, radialSum;
     centerDiff = sqrt(pow(circle1->x - circle2->x, 2) + pow(circle1->y - circle2->y, 2));
     radialDiff = circle1->r - circle2->r;
     if (radialDiff < 0) radialDiff *= -1;
     radialSum = circle1->r + circle2->r;
-    printf("centerDiff: %lf\nradialDiff: %lf\nradialSum: %lf\n", centerDiff, radialDiff, radialSum);
+    //printf("centerDiff: %lf\nradialDiff: %lf\nradialSum: %lf\n", centerDiff, radialDiff, radialSum);
+    if (circle1->x == circle2->x && circle1->y == circle2->y && circle1->r == circle2->r) { // identic -> evalVolume
+        printf("Kruznice splyvaji, prekryv: %lf\n", M_PI * pow(circle1->r, 2));
+        return 4;
+    }
     if (radialDiff < radialSum && radialSum < centerDiff) { // outside, no intersec.
         printf("Kruznice lezi vne sebe, zadny prekryv.\n");
         return 0;
@@ -32,7 +48,7 @@ int hasIntersection(TCIRCLE * circle1, TCIRCLE * circle2) {
         return -1;
     }
     if (radialDiff < centerDiff && centerDiff < radialSum) { // two intersec. -> evalVolume
-        printf("Kruznice se protinaji, prekryv: 37.475800\n");
+        printf("Kruznice se protinaji, prekryv: %lf\n", evalArea(circle1, circle2));
         return 2;
     }
     if (centerDiff == radialDiff) { // inside, one intersec. -> evalVolume        
@@ -44,11 +60,6 @@ int hasIntersection(TCIRCLE * circle1, TCIRCLE * circle2) {
         if (circle1->r < circle2->r) printf("Kruznice #1 lezi uvnitr kruznice #2, prekryv: %lf\n", M_PI * pow(circle1->r, 2));
         else printf("Kruznice #2 lezi uvnitr kruznice #1, prekryv: %lf\n", M_PI * pow(circle2->r, 2));
         return 3;
-    }
-    if (circle1->x == circle2->x && circle1->y == circle2->y && circle1->r == circle2->r) { // identic -> evalVolume
-        printf("Kruznice splyvaji, prekryv: %lf\n", M_PI * pow(circle1->r, 2));
-
-        return 4;
     }
     return 100;
 }
@@ -71,11 +82,6 @@ int readCircle(TCIRCLE & newCircle) {
     return 1;
 }
 
-double evalVolume(TCIRCLE circle1, TCIRCLE circle2) {
-
-    return 0;
-}
-
 int main(int argc, char** argv) {
     int inter;
     TCIRCLE circle1, circle2;
@@ -85,9 +91,6 @@ int main(int argc, char** argv) {
     if (!readCircle(circle2)) return 0;
 
     inter = hasIntersection(&circle1, &circle2);
-
-
-    printf("%d\n", inter);
 
     return (EXIT_SUCCESS);
 }
