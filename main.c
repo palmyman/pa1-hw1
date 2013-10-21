@@ -14,9 +14,9 @@
  */
 typedef struct TCircle {
     double x, y, r;
-} TCircle;
+} TCIRCLE;
 
-int hasIntersection(TCircle circle1, TCircle circle2) {
+int hasIntersection(TCIRCLE circle1, TCIRCLE circle2) {
     double centerDiff;
     centerDiff = sqrt(pow(circle1.x - circle2.x, 2) + pow(circle1.y - circle2.y, 2));
     if(centerDiff > (circle1.r + circle2.r)) return 0;
@@ -35,15 +35,22 @@ int inputCheck(float r, int check) {
     return 0;
 }
 
-int readCircle(TCircle newCircle) {
+int readCircle(TCIRCLE newCircle) {
     int check;
-    check = scanf("%f %f %f", &newCircle.x, &newCircle.y, &newCircle.r);
+    check = scanf("%lf %lf %lf", &newCircle.x, &newCircle.y, &newCircle.r);
     if(!inputCheck(newCircle.r, check))
         return 0;
     return 1;
 }
 
+double evalVolume(TCIRCLE circle1, TCIRCLE circle2) {
+    return 0;
+}
+
 int main(int argc, char** argv) {
+    
+    TCIRCLE testCircle;
+    int status = readCircle(testCircle);
 
     return (EXIT_SUCCESS);
 }
