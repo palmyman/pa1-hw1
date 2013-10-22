@@ -17,14 +17,22 @@ typedef struct TCircle {
 } TCIRCLE;
 
 double evalArea(TCIRCLE * circle1, TCIRCLE * circle2) {
-    long double d, r, R, area;
+    long double d, d1, d2, r1, r2, alpha1, alpha2, area1, area2, area;
     d = sqrt(pow(circle1->x - circle2->x, 2) + pow(circle1->y - circle2->y, 2));
-    r = circle1->r;
-    R = circle2->r;
-    //TODO
-    area = pow(r, 2) * acos((pow(d, 2) + pow(r, 2) - pow(R, 2)) / 2*d*r) +
-            pow(R, 2) * acos((pow(d, 2) + pow(R, 2) - pow(r, 2)) / 2*d*r) -
-            1/2 * sqrt((r + R - d) * (d + r - R) * (d - r + R) * (d + r + R));
+    r1 = circle1->r;
+    r2 = circle2->r;
+    
+    d1 = (pow(d, 2) - pow(r2, 2) + pow(r1, 2)) / (2 * d);
+    d2 = d - d1;
+    
+    alpha1 = 2 * acos(d1 / r1);
+    alpha2 = 2 * acos(d2 / r2);
+    
+    area1 = (pow(r1, 2) / 2) * (alpha1 - sin(alpha1));
+    area2 = (pow(r2, 2) / 2) * (alpha2 - sin(alpha2));
+    
+    area = area1 + area2;
+    
     return area;
 }
 
