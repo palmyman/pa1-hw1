@@ -37,7 +37,7 @@ double evalArea(TCIRCLE * circle1, TCIRCLE * circle2) {
 }
 
 int hasIntersection(TCIRCLE * circle1, TCIRCLE * circle2) {
-    double centerDiff, radialDiff, radialSum;
+    float centerDiff, radialDiff, radialSum;
     centerDiff = sqrt(pow(circle1->x - circle2->x, 2) + pow(circle1->y - circle2->y, 2));
     radialDiff = circle1->r - circle2->r;
     if (radialDiff < 0) radialDiff *= -1;
